@@ -1,0 +1,15 @@
+# Compilation files
+*.out
+compilation_errors.txt
+
+# LaTeX aux files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.toc
+*.nav
+*.snm

@@ -1,0 +1,634 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{tikz}
+\geometry{a4paper, left=2cm, right=2cm, top=2cm, bottom=2cm}
+\usepackage[absolute]{textpos} % Přidání balíčku pro absolutní pozicování
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \begin{minipage}{0.45\textwidth}
+            \flushleft
+            VŠB -- TUO
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \flushright
+            27.11.2025
+        \end{minipage}
+
+        \vspace*{2cm}
+
+        {\Huge Diskrétní matematika}
+
+        \vspace*{0.5cm}
+
+        {\Huge Projekt}
+
+        \vspace*{0.5cm}
+
+        {\Large číslo zadání: 3}
+
+        % Nastavení pozice tabulky pomocí textpos
+        \begin{textblock*}{\textwidth}(-4cm,15cm) % (x, y) souřadnice od levého horního rohu
+            \begin{tabular}{c|c}
+                Příklad & Poznámky\\
+                \hline
+                \\[5ex]
+                1 & \\[15ex]
+                2 & \\[15ex]
+            \end{tabular}
+        \end{textblock*}
+
+        \vfill
+
+        \begin{minipage}{0.45\textwidth}
+            \flushleft
+            LAK0028
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \flushright
+            Petr Lakomý
+        \end{minipage}
+    \end{center}
+\end{titlepage}
+
+\begin{center}
+\section*{Abstrakt}
+\end{center}
+
+Projekt je rozdělen do dvou hlavních částí. První část se věnuje příkladu z kombinatoriky, druhá pak příkladu z teorie grafů.
+
+V první části je řešen problém populace páru lišek, které byly vysazeny na ostrov v rámci záchranného programu. Tento problém je vyřešen pomocí rekurence.
+
+Druhá část se zaměřuje na konstrukci dvou neizomorfních grafů z dané grafové posloupnosti, přičemž je využita Havel-Hakimiho věta.
+\vspace{1cm}
+\section{Kombinatorika}
+\subsection{Populace lišky ostrovní}
+Na odlehlý ostrov byly v rámci záchranného programu vysazeny \textbf{tři páry lišek ostrovních}. Ve druhém roce bylo napočítáno již \textbf{sedm párů}.
+
+Od třetího roku se vývoj populace začal řídit přirozenými vlivy prostředí a přítomností predátorů. Biologové zjistili, že:
+\begin{itemize}[label={--}]
+    \item přibližně \( \frac{3}{4} \) všech párů přežívá do dalšího roku,
+    \item z párů, které jsou na ostrově alespoň dva roky, vzejde každoročně v průměru dalších \( \frac{5}{8} \) nových
+párů,
+    \item predátoři (např. orli mořští) každoročně usmrtí přibližně 2 páry lišek.
+\end{itemize}
+
+Předpokládejme, že tyto vztahy platí beze změny v průběhu dalšich let.
+
+\subsection*{Úkoly}
+\begin{enumerate}[label=\alph*)]
+    \item Ze slovního popisu sestav \textbf{rekurentní rovnici} pro počet párů lišek $a_n$ v n-tém roce.
+    \item Pomocí této rekurence vypočítej počty párů v letech 3 až 7 (zaokrouhli na \textbf{celá čísla}).
+    \item Najdi \textbf{vzorec pro $n$-tý člen posloupnosti}, která je řešením této rekurentní rovnice.
+\end{enumerate}
+
+\subsection*{Poznámka}
+V příkladu nezohledňujeme omezené množství potravy ani prostorové možnosti ostrova.\\
+Nezávisle na těchto vlivech daný model rychle konverguje k jisté konstatní hodnotě na které se počet párů ustálí.
+\begin{flushright}
+(6b)
+\end{flushright}
+
+\newpage
+\subsection*{Řešení}
+\begin{enumerate}[label=\alph*)]
+    \item Sestavení rekurentní rovnice pro počet párů lišek $a_n$ v $n$-tém roce.
+    
+    Ze zadání víme, že v prvním roce byly vysazeny tří páry lišek a v druhém roce jich už bylo sedm.
+    \begin{center}
+    $a_1 = 3$ a $a_2 = 7$
+    \end{center}
+
+    Kdybychom chtěli vyjádřit počet páru ve třetím roce, víme, že přežily \( \frac{3}{4} \) párů z předchozího roku (druhého).
+    Navíc z párů, které jsou na ostrově alespoň dva roky (v tomto případě původní první pár), vzejde \( \frac{5}{8} \)
+    nových párů. Bohužel dojde i ke každoročnímu usmrcení vlivem predátorů, musíme tedy odečíst dva páry.
+
+    \begin{center}
+    $a_3 =  \frac{3}{4} \cdot a_2 + \frac{5}{8} \cdot a_1 - 2$
+    \end{center}
+
+    Pro počet párů lišek $a_n$ v $n$-tém roce ($n \geq 3$) platí následující rekurentní rovnice.
+    \begin{center}
+    $a_n =  \frac{3}{4} \cdot a_{n-1} + \frac{5}{8} \cdot a_{n-2} - 2$
+    \end{center}
+
+    \item Výpočet počtu párů v letech tři až sedm.
+    
+    Použijeme sestavenou rekurentní rovnici a dle zadání budeme zaokrouhlovat na celá čísla.
+    \begin{center}
+    $a_3 =  \frac{3}{4} \cdot a_2 + \frac{5}{8} \cdot a_1 - 2 = \frac{3}{4} \cdot 7 + \frac{5}{8} \cdot 3 - 2 \approx 5 $
+
+    $a_4 =  \frac{3}{4} \cdot a_3 + \frac{5}{8} \cdot a_2 - 2 = \frac{3}{4} \cdot 5 + \frac{5}{8} \cdot 7 - 2 \approx 6 $
+
+    $a_5 =  \frac{3}{4} \cdot a_4 + \frac{5}{8} \cdot a_3 - 2 = \frac{3}{4} \cdot 6 + \frac{5}{8} \cdot 5 - 2 \approx 6 $
+
+    $a_6 =  \frac{3}{4} \cdot a_5 + \frac{5}{8} \cdot a_4 - 2 = \frac{3}{4} \cdot 6 + \frac{5}{8} \cdot 6 - 2 \approx 6 $
+
+    $a_7 =  \frac{3}{4} \cdot a_6 + \frac{5}{8} \cdot a_5 - 2 = \frac{3}{4} \cdot 6 + \frac{5}{8} \cdot 6 - 2 \approx 6 $
+
+    \end{center}
+
+    Je zřejmé, že při dosazování již zaokrouhlených počtů párů zůstane i v následujících letech počet párů konstantní, a to 6.
+    Populace lišek se tak ustálí.  
+
+    \item Nalezení vzorce pro $n$-tý člen posloupnosti.
+    
+    Máme lineární nehomogenní rekurentní rovnici druhého řádu s konstantními koeficienty.
+
+    \begin{center}
+    $a_n =  \frac{3}{4} \cdot a_{n-1} + \frac{5}{8} \cdot a_{n-2} - 2$
+    \end{center}
+
+    Řešit budeme nejdříve homogenní část.
+
+    \begin{center}
+    $a_n^H =  \frac{3}{4} \cdot a_{n-1} + \frac{5}{8} \cdot a_{n-2}$
+    \end{center}
+
+    Což převedeme na charakteristickou rovnici.
+
+    \begin{center}
+    $r^2 -  \frac{3}{4} \cdot r - \frac{5}{8} = 0$
+    \end{center}
+
+    Charakteristické kořeny jsou:
+    \begin{center}
+    $r_1 = \frac{5}{4}$ a $r_2 = - \frac{1}{2}.$
+    \end{center}
+
+    \newpage
+
+    Potom dostáváme tvar obecného řešeni.
+
+    \begin{center}
+    $a_n^H = \alpha_1 \cdot \left( \frac{5}{4} \right)^n + \alpha_2 \cdot \left( -\frac{1}{2} \right)^n$
+    \end{center}
+
+    Předpokládaný tvar partikulárního řešení je:
+
+    \begin{center}
+    $a_n^P = C \cdot 1^n$
+    \end{center}
+
+    Tento předpokládaný tvar partikulárního řešení následně dosadíme do rekurentní rovnice.
+    \begin{center}
+    $C \cdot 1^n = \frac{3}{4} \cdot C \cdot 1^{n-1} + \frac{5}{8} \cdot C \cdot 1^{n-2} - 2 \cdot 1^n \quad / \frac{1}{1^{n-2}}$
+    
+    $C \cdot 1^n \cdot  1^{-n+2} = \frac{3}{4} \cdot C \cdot 1^{n-1} \cdot  1^{-n+2} + \frac{5}{8} \cdot C \cdot 1^{n-2} \cdot  1^{-n+2} - 2 \cdot 1^n \cdot  1^{-n+2} $
+
+    $C \cdot 1^2 = \frac{3}{4} \cdot C \cdot 1^{1} + \frac{5}{8} \cdot C \cdot 1^{0} - 2 \cdot 1^2$
+
+    $C = \frac{3}{4} \cdot C + \frac{5}{8} \cdot C - 2 $
+    
+    $C = \frac{11}{8} \cdot C - 2 $
+
+    $C - \frac{11}{8} \cdot C = - 2 $
+
+    $-\frac{3}{8} \cdot C = - 2 \quad / -\frac{8}{3}$
+
+    $C = \frac{16}{3}$
+
+    \end{center}
+
+    Řešení je pak ve tvaru součtu řešení homogenní části a  partikulárního řešení.
+
+    \begin{center}
+    $a_n = a_n^H + a_n^P$
+
+    $a_n = \alpha_1 \cdot \left( \frac{5}{4} \right)^n + \alpha_2 \cdot \left( -\frac{1}{2} \right)^n + \frac{16}{3} \cdot 1^n$
+
+    \end{center}
+
+    $\alpha_1$ a $\alpha_2$ zjistíme ze zadaných $a_1$ a $a_2$.
+
+\begin{center}
+    $\underline{
+        \begin{gathered}
+            a_1 = \alpha_1 \cdot \left( \frac{5}{4} \right)^1 + \alpha_2 \cdot \left( -\frac{1}{2} \right)^1 + \frac{16}{3} \cdot 1^1 = 3 \\
+            a_2 = \alpha_1 \cdot \left( \frac{5}{4} \right)^2 + \alpha_2 \cdot \left( -\frac{1}{2} \right)^2 + \frac{16}{3} \cdot 1^2 = 7
+        \end{gathered}}$
+
+    $\underline{
+        \begin{gathered}
+            \alpha_1 \cdot \frac{5}{4}  - \alpha_2 \cdot \frac{1}{2} = -\frac{7}{3} \\
+            \alpha_1 \cdot \frac{25}{16} + \alpha_2 \cdot \frac{1}{4} = \frac{5}{3}
+        \end{gathered}}$
+
+\end{center}
+
+Druhou rovnici vynásobíme dvěma a sečteme s první.
+
+\begin{center}
+
+    $\alpha_1 \cdot \frac{5}{4} + \alpha_1 \cdot \frac{50}{16} = -\frac{7}{3} + \frac{10}{3}$
+
+    $\alpha_1 \cdot \frac{35}{8} = 1$
+
+    $\alpha_1 = \frac{8}{35}$
+
+    $\alpha_2 = \alpha_1 \cdot \frac{10}{4} + \frac{14}{3} = \frac{8}{35} \cdot \frac{10}{4} + \frac{14}{3} = \frac{110}{21}$
+
+\end{center}
+
+Dostáváme tedy řešení dané rekurentní rovnice pro ($n \geq 1$). Tato posloupnost bohužel nekonverguje tak, jak bylo ukázáno
+při postupném výpočtu počtu párů lišek, neboť nedochází k postupnému zaokrouhlování na celá čísla. Dokonce $\lim_{n \to \infty} a_n = +\infty$.
+
+\begin{center}
+$a_n = \frac{8}{35} \cdot \left( \frac{5}{4} \right)^n + \frac{110}{21} \cdot \left( -\frac{1}{2} \right)^n + \frac{16}{3}$
+\end{center}
+
+\end{enumerate}
+
+\newpage
+
+\section{Teorie grafů}
+\subsection{Číselné posloupnosti}
+Mějme zadané číselné posloupnosti (5, 4, 4, 3, 3, 3, 2, 2) a (5, 5, 4, 4, 2, 1, 1).
+
+\subsection*{Úkoly}
+\begin{enumerate}[label=\alph*)]
+    \item Ověřte s využitím věty Havla Hakimiho zda jsou zadané posloupnosti grafové. Je-li posloupnost
+    grafová, pak zpětným postupem dle věty Havla Hakimiho zkonstruujte alespoň dva grafy s danou
+    stupňovou posloupností, které nejsou izomorfní. (Zakreslete všechny jednotlivé malé (menší)
+    grafy odpovídající konstrukci dle věty Havla Hakimiho.
+    \item Pro vámi zkonstruované grafy nalezněte a zapište platné argumenty dokazující, že grafy nejsou
+    izomorfní.
+\end{enumerate}
+
+\begin{flushright}
+(4b)
+\end{flushright}
+
+\subsection*{Řešení}
+\begin{enumerate}[label=\alph*)]
+    \item Jsou posloupnosti grafové? Případné zrekonstruování dvou neizomorfních grafů.
+    
+    \[
+    \begin{aligned}
+    &(5,4,4,3,3,3,2,2)
+    \;\stackrel{HH}{\sim}\;
+    (3,3,2,2,2,2,2)
+    \;\stackrel{HH}{\sim}\;
+    (2,1,1,2,2,2)
+    \;\stackrel{HH}{\sim}\;
+    \overset{\text{přeuspořádání}}{(2,2,2,2,1,1)}
+    \\[6pt]
+    &\stackrel{HH}{\sim}\;
+    (1,1,2,1,1)
+    \;\stackrel{HH}{\sim}\;
+    \overset{\text{přeuspořádání}}{(2,1,1,1,1)}
+    \;\stackrel{HH}{\sim}\;
+    (0,0,1,1)
+    \;\stackrel{HH}{\sim}\;
+    \overset{\text{přeuspořádání}}{(1,1,0,0)}
+    \;\stackrel{HH}{\sim}\;
+    (0,0,0)
+    \end{aligned}
+    \]
+
+    Ano, posloupnost (5,4,4,3,3,3,2,2) je grafová.
+    \vspace*{0.5cm}
+
+    \[
+    \begin{aligned}
+    &(5,5,4,4,2,1,1)
+    \;\stackrel{HH}{\sim}\;
+    (4,3,3,1,0,1)
+    \;\stackrel{HH}{\sim}\;
+    \overset{\text{přeuspořádání}}{(4,3,3,1,1,0)}
+    \;\stackrel{HH}{\sim}\;
+    (2,2,0,0,0)
+    \\[6pt]
+    &\stackrel{HH}{\sim}\;
+    (1,-1,0,0)
+    \end{aligned}
+    \]
+
+    Ne, posloupnost (5,5,4,4,2,1,1) není grafová. Pouze tedy pro první posloupnost budou zkonstruovány
+    dva neizomorfní grafy.
+
+    \newpage
+    \begin{center}
+    (0,0,0)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+
+    % Přidání číslování nad vrcholy
+    \node[below=0.25cm] at (v1.south) {0};
+    \node[below=0.25cm] at (v2.south) {0};
+    \node[below=0.25cm] at (v3.south) {0}; 
+
+
+
+    \end{tikzpicture}
+    \end{center}
+
+    \hrule
+
+    \begin{center}
+    (1,1,0,0)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+    \node[vertex] (v4) at (4, 2) {$v_4$};
+
+    % Přidání číslování nad vrcholy
+    \node[below=0.25cm] at (v1.south) {1};
+    \node[below=0.25cm] at (v2.south) {1};
+    \node[below=0.25cm] at (v3.south) {0};
+    \node[above=0.25cm] at (v4.north)  {0};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+
+    \end{tikzpicture}
+    \end{center}
+
+
+    \hrule
+
+    \begin{center}
+    (2,1,1,1,1)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+    \node[vertex] (v4) at (4, 2) {$v_4$};
+    \node[vertex] (v5) at (6, 2) {$v_5$};
+
+
+    % Přidání číslování
+    \node[below=0.25cm] at (v1.south) {1};
+    \node[below=0.25cm] at (v2.south) {1};
+    \node[below=0.25cm] at (v3.south) {1};
+    \node[above=0.25cm] at (v4.north)  {2};
+    \node[right=0.25cm] at (v5.east)  {1};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+    \draw[edge] (v3) -- (v4);
+    \draw[edge] (v4) -- (v5);
+
+    \end{tikzpicture}
+    \end{center}
+
+    \hrule
+
+    \begin{center}
+    (2,2,2,2,1,1)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+    \node[vertex] (v4) at (4, 2) {$v_4$};
+    \node[vertex] (v5) at (6, 2) {$v_5$};
+    \node[vertex] (v6) at (2, 2) {$v_6$};
+
+
+    % Přidání číslování
+    \node[below=0.25cm] at (v1.south) {2};
+    \node[below=0.25cm] at (v2.south) {2};
+    \node[below=0.25cm] at (v3.south) {1};
+    \node[above=0.25cm] at (v4.north)  {2};
+    \node[right=0.25cm] at (v5.east)  {1};
+    \node[below=0.25cm, left=0.0cm] at (v6.south)  {2};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+    \draw[edge] (v3) -- (v4);
+    \draw[edge] (v4) -- (v5);
+    \draw[edge] (v1) -- (v6);
+    \draw[edge] (v2) -- (v6);
+
+    \end{tikzpicture}
+    \end{center}
+    
+
+
+    \begin{center}
+    (3,3,2,2,2,2,2)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+    \node[vertex] (v4) at (4, 2) {$v_4$};
+    \node[vertex] (v5) at (6, 2) {$v_5$};
+    \node[vertex] (v6) at (2, 2) {$v_6$};
+    \node[vertex] (v7) at (6, 0) {$v_7$};
+
+    % Přidání číslování
+    \node[below=0.25cm] at (v1.south) {2};
+    \node[below=0.25cm] at (v2.south) {3};
+    \node[below=0.25cm] at (v3.south) {3};
+    \node[above=0.25cm] at (v4.north)  {2};
+    \node[right=0.25cm] at (v5.east)  {2};
+    \node[below=0.25cm, left=0.0cm] at (v6.south)  {2};
+    \node[below=0.25cm] at (v7.south) {2};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+    \draw[edge] (v3) -- (v4);
+    \draw[edge] (v4) -- (v5);
+    \draw[edge] (v1) -- (v6);
+    \draw[edge] (v2) -- (v6);
+    \draw[edge] (v3) -- (v7);
+    \draw[edge] (v5) -- (v7);
+    \draw[edge] (v2) -- (v3);
+
+    \end{tikzpicture}
+    \end{center}
+
+    \hrule
+
+    \begin{center}
+    (5,4,4,3,3,3,2,2)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$v_1$};
+    \node[vertex] (v2) at (2, 0) {$v_2$};
+    \node[vertex] (v3) at (4, 0) {$v_3$};
+    \node[vertex] (v4) at (4, 2) {$v_4$};
+    \node[vertex] (v5) at (6, 2) {$v_5$};
+    \node[vertex] (v6) at (2, 2) {$v_6$};
+    \node[vertex] (v7) at (6, 0) {$v_7$};
+    \node[vertex] (v8) at (3, 4.2) {$v_8$};
+
+    % Přidání číslování
+    \node[below=0.25cm] at (v1.south) {3};
+    \node[below=0.25cm] at (v2.south) {4};
+    \node[below=0.25cm] at (v3.south) {4};
+    \node[above=0.25cm] at (v4.north)  {3};
+    \node[right=0.25cm] at (v5.east)  {2};
+    \node[below=0.25cm, left=0.0cm] at (v6.south)  {3};
+    \node[below=0.25cm] at (v7.south) {2};
+    \node[above=0.25cm] at (v8.north)  {5};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+    \draw[edge] (v3) -- (v4);
+    \draw[edge] (v4) -- (v5);
+    \draw[edge] (v1) -- (v6);
+    \draw[edge] (v2) -- (v6);
+    \draw[edge] (v3) -- (v7);
+    \draw[edge] (v5) -- (v7);
+    \draw[edge] (v2) -- (v3);
+
+    \draw[edge] (v8) -- (v6);
+    \draw[edge] (v8) -- (v4);
+    \draw[edge] (v8) -- (v2);
+    \draw[edge] (v8) -- (v3);
+    \draw[edge] (v8) -- (v1);
+
+    \end{tikzpicture}
+    \end{center}
+
+    Tímto jsme dostali graf k zadané grafové posloupnosti. Zbývá ještě vytvořit další neizomorfní graf se stejnou
+    stupňovou posloupností. Tím může být například:
+
+        \begin{center}
+    (5,4,4,3,3,3,2,2)
+    \vspace*{0.5cm}
+
+    \begin{tikzpicture}[
+    vertex/.style={circle, draw, fill=black!0, minimum size=20pt, inner sep=0pt},
+    edge/.style={draw, thick, -}
+    ]
+
+    % Vytvoření vrcholů
+    \node[vertex] (v1) at (0, 0) {$x_1$};
+    \node[vertex] (v2) at (2, 0) {$x_2$};
+    \node[vertex] (v3) at (4, 0) {$x_3$};
+    \node[vertex] (v4) at (4, 2) {$x_4$};
+    \node[vertex] (v5) at (6, 2) {$x_5$};
+    \node[vertex] (v6) at (2, 2) {$x_6$};
+    \node[vertex] (v7) at (6, 0) {$x_7$};
+    \node[vertex] (v8) at (3, 4.2) {$x_8$};
+
+    % Přidání číslování
+    \node[below=0.25cm] at (v1.south) {2};
+    \node[below=0.25cm] at (v2.south) {4};
+    \node[below=0.25cm] at (v3.south) {4};
+    \node[right=0.25cm] at (v4.south)  {3};
+    \node[right=0.25cm] at (v5.east)  {3};
+    \node[below=0.25cm, left=0.0cm] at (v6.south)  {2};
+    \node[below=0.25cm] at (v7.south) {3};
+    \node[above=0.25cm] at (v8.north)  {5};
+
+    % Nakreslení hran
+    \draw[edge] (v1) -- (v2);
+    \draw[edge] (v3) -- (v4);
+    \draw[edge] (v4) -- (v5);
+    \draw[edge] (v1) -- (v6);
+    \draw[edge] (v2) -- (v6);
+    \draw[edge] (v3) -- (v7);
+    \draw[edge] (v5) -- (v7);
+    \draw[edge] (v2) -- (v3);
+
+    \draw[edge] (v8) -- (v7);
+    \draw[edge] (v8) -- (v4);
+    \draw[edge] (v8) -- (v2);
+    \draw[edge] (v8) -- (v3);
+    \draw[edge] (v8) -- (v5);
+
+    \end{tikzpicture}
+    \end{center}
+
+
+    \newpage
+    \item Důkaz, že tyto grafy nejsou izomorfní.
+    
+    Pokud se zaměříme na vrcholy stupně čtyři, zjistíme, že:
+
+    \begin{center}
+    $f(v_2) = f(x_3)$
+     \end{center}
+    neboť mají sousední vrcholy se stejným vrcholovým stupněm.
+
+    Pokud se ale pokusíme přiřadit i druhý vrchol s vrcholovým stupněm čtyři, zjistíme,
+    že není zachována sousednost.
+
+    \begin{center}
+    $N(v_3) = \left\{v_2, v_8, v_4, v_7\right\}$
+
+    $deg(v_2)=4$
+
+    $deg(v_8)=5$
+
+    $deg(v_4)=3$
+
+    $deg(v_7)=2$
+
+    \vspace*{0.5cm}
+
+    $N(x_2) = \left\{x_1, x_6, x_8, x_3\right\}$
+
+    $deg(x_1)=2$
+
+    $deg(x_6)=2$
+
+    $deg(x_8)=5$
+    
+    $deg(x_3)=4$
+
+    \end{center}
+
+    Tyto dva grafy tedy nejsou izomorfní.
+
+
+
+\end{enumerate}
+
+\end{document}
